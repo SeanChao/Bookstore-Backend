@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.seanchao.bookstore.entity.Book;
 import xyz.seanchao.bookstore.service.BookService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,7 @@ public class BookController {
     public Book findBook(@PathVariable("id") Integer id) {
         System.out.println("Searching book id: " + id);
         Book book = bookService.findBookById(id);
-        System.out.println(book.getId() + " " + book.getName());
+        System.out.println(book.getId() + " " + book.getTitle());
         return book;
     }
 

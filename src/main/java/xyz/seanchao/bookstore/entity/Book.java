@@ -14,14 +14,14 @@ import javax.persistence.*;
         property = "id")
 public class Book {
     private int id;
-    private String name;
+    private String title;
     private String isbn;
-    private String type;
-
-
+    private String category;
     private String author;
     private int price;  // price in cents
     private String description;
+    private String cover;
+    private int inventory;
 
     @Id
     @Column(name = "id")
@@ -34,13 +34,13 @@ public class Book {
     }
 
     @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     @Basic
@@ -53,14 +53,16 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getType() {
-        return type;
+    @Column(name = "category")
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String type) {
+        this.category = type;
     }
 
+    @Column(name = "author")
     public String getAuthor() {
         return author;
     }
@@ -69,6 +71,7 @@ public class Book {
         this.author = author;
     }
 
+    @Column(name = "price")
     public int getPrice() {
         return price;
     }
@@ -77,6 +80,7 @@ public class Book {
         this.price = price;
     }
 
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -84,4 +88,24 @@ public class Book {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Basic
+    @Column(name = "image")
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    @Column(name = "inventory")
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
 }
