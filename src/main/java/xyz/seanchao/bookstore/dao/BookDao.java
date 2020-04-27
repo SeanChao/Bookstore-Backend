@@ -2,7 +2,6 @@ package xyz.seanchao.bookstore.dao;
 
 import xyz.seanchao.bookstore.entity.Book;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface BookDao {
@@ -11,4 +10,6 @@ public interface BookDao {
     List<Book> findAll();
 
     List<Book> findByAuthor(String author);
+
+    Book updateBook(Integer id, Book book);
 }

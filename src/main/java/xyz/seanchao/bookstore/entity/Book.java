@@ -13,7 +13,7 @@ import javax.persistence.*;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Book {
-    private int id;
+    private Integer id;
     private String title;
     private String isbn;
     private String category;
@@ -25,7 +25,7 @@ public class Book {
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -39,8 +39,8 @@ public class Book {
         return title;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Basic
@@ -108,4 +108,8 @@ public class Book {
         this.inventory = inventory;
     }
 
+    @Override
+    public String toString() {
+        return "title: " + getTitle() + ", id: " + getId() + ", author: " + getAuthor();
+    }
 }

@@ -27,4 +27,14 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findByAuthor(String author) {
         return bookRepository.findByAuthor(author);
     }
+
+    @Override
+    public Book updateBook(Integer id, Book book) {
+        System.out.println("!book id: " + id + " title: " + book.getTitle());
+        System.out.println("!" + book);
+        return bookRepository.findById(id).map((b) -> {
+            b.setTitle(book.getTitle());
+            return bookRepository.save(b);
+        }).orElseGet(() -> bookRepository.save(book));
+    }
 }
