@@ -20,4 +20,9 @@ public class UserDaoImpl implements UserDao {
     public void addOne(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public User checkUser(String username, String password) {
+        return userRepository.checkUser(username, password);
+    }
 }

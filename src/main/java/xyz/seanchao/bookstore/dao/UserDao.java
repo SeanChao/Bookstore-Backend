@@ -6,4 +6,6 @@ public interface UserDao {
     User findOne(Integer id);
 
     void addOne(User user);
+
+    User checkUser(String username, String password);
 }

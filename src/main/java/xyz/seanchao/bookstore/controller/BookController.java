@@ -8,21 +8,23 @@ import xyz.seanchao.bookstore.service.BookService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/book")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
-    @GetMapping(value = "/book")
+    @GetMapping(value = "/info")
     public Book findBook(@RequestParam(name = "id") Integer id) {
-        System.out.println("Searching book id: " + id);
+        System.out.println("/book/info/?id=" + id);
         Book book = bookService.findBookById(id);
-        System.out.println(book.getId() + " " + book.getTitle());
+        System.out.println(book);
         return book;
     }
 
-    @GetMapping(value = "/getBookAll")
+    @GetMapping(value = "/all")
     public List<Book> getBookAll() {
+        System.out.println("/all");
         return bookService.findAll();
     }
 
@@ -32,7 +34,7 @@ public class BookController {
         return bookService.findByAuthor(author);
     }
 
-    @PutMapping(value = "/updateBook")
+    @PutMapping(value = "/update")
     public Book updateBook(@RequestBody Book b) {
         System.out.println(b);
         return bookService.updateBook(b.getId(), b);
