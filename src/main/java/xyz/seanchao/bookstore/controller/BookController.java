@@ -1,5 +1,6 @@
 package xyz.seanchao.bookstore.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.seanchao.bookstore.entity.Book;
@@ -16,7 +17,7 @@ public class BookController {
 
     @GetMapping(value = "/info")
     public Book findBook(@RequestParam(name = "id") Integer id) {
-        System.out.println("/book/info/?id=" + id);
+        System.out.print("/book/info/?id=" + id + " ->");
         Book book = bookService.findBookById(id);
         System.out.println(book);
         return book;
@@ -38,5 +39,19 @@ public class BookController {
     public Book updateBook(@RequestBody Book b) {
         System.out.println(b);
         return bookService.updateBook(b.getId(), b);
+    }
+
+    @PostMapping(value = "new")
+    public Book addBook(@RequestBody JSONObject data) {
+        Book book = new Book();
+        book.setTitle(data.getString("title"));
+        book.setIsbn(data.getString("isbn"));
+        book.setCategory(data.getString("category"));
+        book.setAuthor(data.getString("author"));
+        book.setPrice(data.getBigDecimal("price"));
+        book.setDescription(data.getString("description"));
+        book.setCover(data.getString("cover"));
+        book.setInventory(data.getIntValue("inventory"));
+        return bookService.addBook(book);
     }
 }

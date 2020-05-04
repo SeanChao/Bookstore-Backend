@@ -5,9 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "book", schema = "bookstore")
+@Table(name = "book")
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -18,18 +19,26 @@ public class Book {
     private String isbn;
     private String category;
     private String author;
-    private int price;  // price in cents
+    private BigDecimal price;  // price in cents
     private String description;
     private String cover;
     private int inventory;
 
+    public Book() {
+    }
+
+    public Book(Integer id) {
+        this.id = id;
+    }
+
     @Id
+    @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     @Column(name = "id")
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -72,11 +81,11 @@ public class Book {
     }
 
     @Column(name = "price")
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -110,6 +119,8 @@ public class Book {
 
     @Override
     public String toString() {
-        return "title: " + getTitle() + ", id: " + getId() + ", author: " + getAuthor();
+        return "{title: " + getTitle() + ", id: " + getId() + ", author: " + getAuthor() + "}";
     }
+
+
 }

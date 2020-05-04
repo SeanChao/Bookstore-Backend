@@ -12,4 +12,6 @@ public interface BookDao {
     List<Book> findByAuthor(String author);
 
     Book updateBook(Integer id, Book book);
+
+    Book addOne(Book book);
 }

@@ -32,4 +32,9 @@ public class BookServiceImpl implements BookService {
     public Book updateBook(Integer id, Book book) {
         return bookDao.updateBook(id, book);
     }
+
+    @Override
+    public Book addBook(Book book) {
+        return bookDao.addOne(book);
+    }
 }

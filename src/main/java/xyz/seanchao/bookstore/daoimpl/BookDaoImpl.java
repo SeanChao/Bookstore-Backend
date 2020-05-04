@@ -30,11 +30,16 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book updateBook(Integer id, Book book) {
-        System.out.println("!book id: " + id + " title: " + book.getTitle());
         System.out.println("!" + book);
         return bookRepository.findById(id).map((b) -> {
             b.setTitle(book.getTitle());
+            b.setInventory(book.getInventory());
             return bookRepository.save(b);
         }).orElseGet(() -> bookRepository.save(book));
+    }
+
+    @Override
+    public Book addOne(Book book) {
+        return bookRepository.save(book);
     }
 }

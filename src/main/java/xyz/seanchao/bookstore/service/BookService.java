@@ -12,4 +12,6 @@ public interface BookService {
     List<Book> findByAuthor(String author);
 
     Book updateBook(Integer id, Book book);
+
+    Book addBook(Book book);
 }
