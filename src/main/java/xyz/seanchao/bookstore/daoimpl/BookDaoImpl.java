@@ -4,23 +4,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import xyz.seanchao.bookstore.dao.BookDao;
 import xyz.seanchao.bookstore.entity.Book;
+import xyz.seanchao.bookstore.entity.BookImage;
+import xyz.seanchao.bookstore.repository.BookImageRepository;
 import xyz.seanchao.bookstore.repository.BookRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BookDaoImpl implements BookDao {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookImageRepository bookImageRepository;
+
     @Override
     public Book findOne(Integer id) {
-        return bookRepository.getOne(id);
+        Book book = bookRepository.getOne(id);
+        Optional<BookImage> image = bookImageRepository.findByFid(id);
+        if (image.isPresent()) {
+            book.setImage(image.get());
+        } else {
+            book.setImage(null);
+            System.err.println("Failed to fetch image for book with id = " + id);
+        }
+        return book;
     }
 
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        ArrayList<Book> bookList = (ArrayList<Book>) bookRepository.findAll();
+        for (Book book : bookList) {
+            Integer id = book.getId();
+            Optional<BookImage> image = bookImageRepository.findByFid(id);
+            if (image.isPresent()) {
+                book.setImage(image.get());
+            } else {
+                book.setImage(null);
+                System.err.println("Failed to fetch image for book with id = " + id);
+            }
+        }
+        return bookList;
     }
 
     @Override

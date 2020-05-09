@@ -23,6 +23,7 @@ public class Book {
     private String description;
     private String cover;
     private int inventory;
+    private BookImage image;
 
     public Book() {
     }
@@ -115,6 +116,15 @@ public class Book {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+
+    @Transient
+    public BookImage getImage() {
+        return image;
+    }
+
+    public void setImage(BookImage image) {
+        this.image = image;
     }
 
     @Override
