@@ -2,6 +2,8 @@ package xyz.seanchao.bookstore.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import xyz.seanchao.bookstore.entity.Book;
 import xyz.seanchao.bookstore.service.BookService;
@@ -24,8 +26,14 @@ public class BookController {
     }
 
     @GetMapping(value = "/all")
-    public List<Book> getBookAll() {
+    public List<Book> getBookAll(@RequestParam(name = "limit",
+            required = false) Integer limit) {
         System.out.println("/all");
+        if (limit != null) {
+            System.out.println("limit: " + limit);
+            Pageable part = PageRequest.of(0, limit);
+            return bookService.findAll(part);
+        }
         return bookService.findAll();
     }
 

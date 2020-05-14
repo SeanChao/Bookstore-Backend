@@ -1,6 +1,7 @@
 package xyz.seanchao.bookstore.daoimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import xyz.seanchao.bookstore.dao.BookDao;
 import xyz.seanchao.bookstore.entity.Book;
@@ -36,6 +37,17 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findAll() {
         ArrayList<Book> bookList = (ArrayList<Book>) bookRepository.findAll();
+        return getBooksListImage(bookList);
+    }
+
+    @Override
+    public List<Book> findAll(Pageable page) {
+        List<Book> tmp = bookRepository.findAll(page).getContent();
+        ArrayList<Book> bookList = new ArrayList<>(tmp);
+        return getBooksListImage(bookList);
+    }
+
+    private List<Book> getBooksListImage(ArrayList<Book> bookList) {
         for (Book book : bookList) {
             Integer id = book.getId();
             Optional<BookImage> image = bookImageRepository.findByFid(id);

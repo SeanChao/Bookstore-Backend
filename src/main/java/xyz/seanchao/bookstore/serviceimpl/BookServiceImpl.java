@@ -1,6 +1,7 @@
 package xyz.seanchao.bookstore.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import xyz.seanchao.bookstore.dao.BookDao;
 import xyz.seanchao.bookstore.entity.Book;
@@ -21,6 +22,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAll() {
         return bookDao.findAll();
+    }
+
+    @Override
+    public List<Book> findAll(Pageable page) {
+        return bookDao.findAll(page);
     }
 
     @Override
