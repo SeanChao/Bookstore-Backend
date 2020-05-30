@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.seanchao.bookstore.constant.Constant;
 import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.UserService;
+import xyz.seanchao.bookstore.util.MessageUtil;
 import xyz.seanchao.bookstore.util.SessionUtil;
 
 import java.util.Map;
@@ -25,19 +26,18 @@ public class LoginController {
         System.out.println("/login " + username + " " + password);
         User user = userService.checkUser(username, password);
         System.out.println(user);
-        JSONObject response = new JSONObject();
         if (user == null) {
-            response.put("status", 0);
-            return response;
-        } else response.put("status", 1);
-        response.put("user_id", user.getId());
-        response.put("role", user.getRole());
-        response.put("username", user.getUsername());
-        response.put("name", user.getName());
-        response.put("address", user.getAddress());
-        response.put("tel", user.getTel());
-        SessionUtil.setSession(response);
-        return response;
+            return MessageUtil.makeMessage(1);
+        }
+        JSONObject userData = new JSONObject();
+        userData.put(Constant.USER_ID, user.getId());
+        userData.put(Constant.USER_ROLE, user.getRole());
+        userData.put(Constant.USERNAME, user.getUsername());
+        userData.put("name", user.getName());
+        userData.put("address", user.getAddress());
+        userData.put("tel", user.getTel());
+        SessionUtil.setSession(userData);
+        return MessageUtil.makeMessage(0, userData);
     }
 
     @RequestMapping("/logout")
@@ -50,5 +50,16 @@ public class LoginController {
             res.put("status", 1);
         System.out.println("logout " + res);
         return res;
+    }
+
+    @RequestMapping("/checkSession")
+    public JSONObject checkSession() {
+        JSONObject auth = SessionUtil.getAuth();
+        if (auth == null) {
+            return MessageUtil.makeMessage(MessageUtil.makeMessage(1,
+                    "invalid session"));
+        } else {
+            return MessageUtil.makeMessage(0, auth);
+        }
     }
 }

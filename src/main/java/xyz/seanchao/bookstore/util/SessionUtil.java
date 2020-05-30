@@ -15,11 +15,12 @@ public class SessionUtil {
         if (requestAttributes != null) {
             HttpServletRequest request = requestAttributes.getRequest();
             HttpSession session = request.getSession(false);
-
-            if (session != null) {
-                Integer userType = (Integer) session.getAttribute(Constant.USER_ROLE);
-                return userType != null && userType >= 0;
-            }
+// User level validation
+//            if (session != null) {
+//                Integer userType = (Integer) session.getAttribute(Constant.USER_ROLE);
+//                return userType != null && userType >= 0;
+//            }
+            return true;
         }
         return false;
     }
@@ -28,10 +29,12 @@ public class SessionUtil {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         // Session
         if (requestAttributes != null) {
+            System.out.println("[ok] request attr is not null");
             HttpServletRequest request = requestAttributes.getRequest();
             HttpSession session = request.getSession(false);
 
             if (session != null) {
+                System.out.println("[ok] session is not null");
                 JSONObject ret = new JSONObject();
                 ret.put(Constant.USER_ID, session.getAttribute(Constant.USER_ID));
                 ret.put(Constant.USERNAME, session.getAttribute(Constant.USERNAME));
