@@ -17,10 +17,12 @@ public class User {
     private int id;
     private int role;
     private String name;
+    private String email;
     private String tel;
     private String address;
     private String username;
     private String password;
+    private int blocked;
 
     public User() {
     }
@@ -29,6 +31,11 @@ public class User {
         this.name = name;
         this.tel = tel;
         this.address = address;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     @Id
@@ -60,6 +67,16 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
@@ -100,6 +117,16 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "blocked")
+    public int getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(int blocked) {
+        this.blocked = blocked;
     }
 
     @Override

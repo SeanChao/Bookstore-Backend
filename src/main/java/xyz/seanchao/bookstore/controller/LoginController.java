@@ -37,7 +37,7 @@ public class LoginController {
         userData.put("address", user.getAddress());
         userData.put("tel", user.getTel());
         SessionUtil.setSession(userData);
-        return MessageUtil.makeMessage(0, userData);
+        return MessageUtil.makeMessage(user.getBlocked() == 0 ? 0 : 2, userData);
     }
 
     @RequestMapping("/logout")

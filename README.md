@@ -51,8 +51,11 @@ The MySQL database includes a schema named `bookstore` with following tables:
  
 |Status Code| Description|
 |---|---|
-|1|Permission denied| 
-
+|1|Permission denied.| 
+|2|User Blocked.|
+|3|Duplicate username.|
+|4|Invalid email address in user registration.|
+ 
 ## Session
 
 After the user logs in, the server will set a session, which will be removed if the user logs out. When the user
