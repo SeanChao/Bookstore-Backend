@@ -6,10 +6,17 @@ import xyz.seanchao.bookstore.dao.UserDao;
 import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.UserService;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
 
     @Override
     public int addUser(User user) {
@@ -37,5 +44,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User checkUser(String username, String password) {
         return userDao.checkUser(username, password);
+    }
+
+    @Override
+    public boolean blockUser(Integer id, Integer blocked) {
+        if (id == null || blocked == null) return false;
+        User user = userDao.findOne(id);
+        user.setBlocked(blocked);
+        userDao.updateUser(user);
+        return true;
     }
 }

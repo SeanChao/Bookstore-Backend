@@ -22,7 +22,7 @@ public class User {
     private String address;
     private String username;
     private String password;
-    private int blocked;
+    private Integer blocked;
 
     public User() {
     }
@@ -121,11 +121,11 @@ public class User {
 
     @Basic
     @Column(name = "blocked")
-    public int getBlocked() {
+    public Integer getBlocked() {
         return blocked;
     }
 
-    public void setBlocked(int blocked) {
+    public void setBlocked(Integer blocked) {
         this.blocked = blocked;
     }
 
