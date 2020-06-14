@@ -72,6 +72,13 @@ public class BookDaoImpl implements BookDao {
         return bookRepository.findById(id).map((b) -> {
             b.setTitle(book.getTitle());
             b.setInventory(book.getInventory());
+            b.setAuthor(book.getAuthor());
+            b.setIsbn(book.getIsbn());
+            b.setImage(book.getImage());
+            bookImageRepository.findByFid(b.getId()).map((e) -> {
+                e.setImageBase64(book.getImage().getImageBase64());
+                return bookImageRepository.save(e);
+            });
             return bookRepository.save(b);
         }).orElseGet(() -> bookRepository.save(book));
     }

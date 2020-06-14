@@ -35,4 +35,13 @@ public class BookImage {
     public void setImageBase64(String imageBase64) {
         this.imageBase64 = imageBase64;
     }
+
+    @Override
+    public String toString() {
+        return "BookImage{" +
+                "_id=" + _id +
+                ", fid=" + fid +
+                ", imageBase64='" + imageBase64.substring(0, 100) + '\'' +
+                '}';
+    }
 }

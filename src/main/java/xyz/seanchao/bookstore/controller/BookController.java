@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import xyz.seanchao.bookstore.entity.Book;
+import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.service.BookService;
 
 import java.util.List;
@@ -44,7 +45,18 @@ public class BookController {
     }
 
     @PutMapping(value = "/update")
-    public Book updateBook(@RequestBody Book b) {
+    public Book updateBook(@RequestBody JSONObject json) {
+        // adapts incoming JSON Object into Book Object
+        Book b = new Book();
+        b.setId(json.getInteger("id"));
+        b.setInventory(json.getInteger("inventory"));
+        b.setTitle(json.getString("title"));
+        b.setAuthor(json.getString("author"));
+        b.setIsbn(json.getString("isbn"));
+        BookImage image = new BookImage();
+        image.setFid(b.getId());
+        image.setImageBase64(json.getString("img"));
+        b.setImage(image);
         System.out.println(b);
         return bookService.updateBook(b.getId(), b);
     }
