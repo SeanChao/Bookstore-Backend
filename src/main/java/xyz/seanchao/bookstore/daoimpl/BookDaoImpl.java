@@ -47,6 +47,18 @@ public class BookDaoImpl implements BookDao {
         return getBooksListImage(bookList);
     }
 
+    @Override
+    public List<Book> findAllActive() {
+        return getBooksListImage((ArrayList<Book>) bookRepository.findAllByActiveTrue());
+    }
+
+    @Override
+    public List<Book> findAllActive(Pageable page) {
+        List<Book> tmp = bookRepository.findAllByActiveTrue(page).getContent();
+        ArrayList<Book> bookList = new ArrayList<>(tmp);
+        return getBooksListImage(bookList);
+    }
+
     private List<Book> getBooksListImage(ArrayList<Book> bookList) {
         for (Book book : bookList) {
             Integer id = book.getId();
@@ -75,10 +87,13 @@ public class BookDaoImpl implements BookDao {
             b.setAuthor(book.getAuthor());
             b.setIsbn(book.getIsbn());
             b.setImage(book.getImage());
-            bookImageRepository.findByFid(b.getId()).map((e) -> {
-                e.setImageBase64(book.getImage().getImageBase64());
-                return bookImageRepository.save(e);
-            });
+            if (book.getActive() != null) b.setActive(book.getActive());
+            if (book.getImage() != null && book.getImage().getImageBase64() != null)
+                bookImageRepository.findByFid(b.getId()).map((e) -> {
+                    e.setImageBase64(book.getImage().getImageBase64());
+                    return bookImageRepository.save(e);
+                });
+            System.out.println("update to " + b);
             return bookRepository.save(b);
         }).orElseGet(() -> bookRepository.save(book));
     }
@@ -86,5 +101,17 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book addOne(Book book) {
         return bookRepository.save(book);
+    }
+
+    @Override
+    public void deleteOne(Integer id) {
+        Book b = findOne(id);
+        System.out.println("Delete " + b);
+        if (b == null) return;
+        b.setActive(false);
+        updateBook(id, b);
+//        bookRepository.delete(findOne(id));
+//        Optional<BookImage> bookImageOptional=bookImageRepository.findByFid(id);
+//        bookImageOptional.ifPresent(bookImage -> bookImageRepository.delete(bookImage));
     }
 }

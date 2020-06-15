@@ -12,9 +12,15 @@ public interface BookDao {
 
     List<Book> findAll(Pageable page);
 
+    List<Book> findAllActive();
+
+    List<Book> findAllActive(Pageable page);
+
     List<Book> findByAuthor(String author);
 
     Book updateBook(Integer id, Book book);
 
     Book addOne(Book book);
+
+    void deleteOne(Integer id);
 }

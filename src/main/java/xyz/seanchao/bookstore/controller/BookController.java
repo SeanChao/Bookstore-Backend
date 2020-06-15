@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import xyz.seanchao.bookstore.entity.Book;
 import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.service.BookService;
+import xyz.seanchao.bookstore.util.MessageUtil;
 
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class BookController {
         if (limit != null) {
             System.out.println("limit: " + limit);
             Pageable part = PageRequest.of(0, limit);
-            return bookService.findAll(part);
+            return bookService.findAllActive(part);
         }
-        return bookService.findAll();
+        return bookService.findAllActive();
     }
 
     @GetMapping(value = "/author/{name}")
@@ -61,7 +62,7 @@ public class BookController {
         return bookService.updateBook(b.getId(), b);
     }
 
-    @PostMapping(value = "new")
+    @PostMapping(value = "/new")
     public Book addBook(@RequestBody JSONObject data) {
         Book book = new Book();
         book.setTitle(data.getString("title"));
@@ -73,5 +74,13 @@ public class BookController {
         book.setCover(data.getString("cover"));
         book.setInventory(data.getIntValue("inventory"));
         return bookService.addBook(book);
+    }
+
+    @PostMapping(value = "/del")
+    public JSONObject delBook(@RequestBody JSONObject data) {
+        Integer id = data.getInteger("id");
+        if (id == null) return MessageUtil.makeMessage(100, "invalid id");
+        bookService.deleteBook(id);
+        return MessageUtil.makeMessage(0);
     }
 }

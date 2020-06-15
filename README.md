@@ -12,6 +12,7 @@ path: /api/book
 |/all|GET|return an array of data of all books |
 |/info?:id|GET|return data of the book with matching `id` |
 |/new|POST|Inserts a new book.|
+|/del|POST|Mark a book as deleted.|
 
 ### User Authentication
 
@@ -55,6 +56,7 @@ The MySQL database includes a schema named `bookstore` with following tables:
 |2|User Blocked.|
 |3|Duplicate username.|
 |4|Invalid email address in user registration.|
+|100| Generic error: invalid data|
  
 ## Session
 

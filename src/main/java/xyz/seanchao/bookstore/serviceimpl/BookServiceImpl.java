@@ -30,6 +30,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> findAllActive() {
+        return bookDao.findAllActive();
+    }
+
+    @Override
+    public List<Book> findAllActive(Pageable page) {
+        return bookDao.findAllActive(page);
+    }
+
+    @Override
     public List<Book> findByAuthor(String author) {
         return bookDao.findByAuthor(author);
     }
@@ -42,5 +52,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book addBook(Book book) {
         return bookDao.addOne(book);
+    }
+
+    @Override
+    public void deleteBook(Integer id) {
+        bookDao.deleteOne(id);
     }
 }

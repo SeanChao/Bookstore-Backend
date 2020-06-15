@@ -12,9 +12,15 @@ public interface BookService {
 
     List<Book> findAll(Pageable page);
 
+    List<Book> findAllActive();
+
+    List<Book> findAllActive(Pageable page);
+
     List<Book> findByAuthor(String author);
 
     Book updateBook(Integer id, Book book);
 
     Book addBook(Book book);
+
+    void deleteBook(Integer id);
 }

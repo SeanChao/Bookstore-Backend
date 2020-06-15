@@ -23,6 +23,7 @@ public class Book {
     private String description;
     private String cover;
     private int inventory;
+    private Boolean active;
     private BookImage image;
 
     public Book() {
@@ -118,6 +119,16 @@ public class Book {
         this.inventory = inventory;
     }
 
+    @Basic
+    @Column(name = "active")
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Transient
     public BookImage getImage() {
         return image;
@@ -129,8 +140,18 @@ public class Book {
 
     @Override
     public String toString() {
-        return "{title: " + getTitle() + ", id: " + getId() + ", author: " + getAuthor() + "}";
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", category='" + category + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", cover='" + cover + '\'' +
+                ", inventory=" + inventory +
+                ", active=" + active +
+                ", image=" + image +
+                '}';
     }
-
-
 }
