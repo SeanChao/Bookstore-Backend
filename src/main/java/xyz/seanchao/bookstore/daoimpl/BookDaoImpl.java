@@ -100,7 +100,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book addOne(Book book) {
-        return bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
+        BookImage bookCover = new BookImage();
+        bookCover.setFid(savedBook.getId());
+        bookCover.setImageBase64(savedBook.getImage().getImageBase64());
+        bookImageRepository.save(bookCover);
+        System.out.println("DAO: add book " + savedBook + ", cover " + bookCover);
+        return savedBook;
     }
 
     @Override

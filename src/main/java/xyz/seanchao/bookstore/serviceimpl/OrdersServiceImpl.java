@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.seanchao.bookstore.dao.OrdersDao;
+import xyz.seanchao.bookstore.dao.UserDao;
 import xyz.seanchao.bookstore.entity.Book;
 import xyz.seanchao.bookstore.entity.OrderItem;
 import xyz.seanchao.bookstore.entity.Orders;
+import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.BookService;
 import xyz.seanchao.bookstore.service.OrdersService;
 
@@ -23,9 +25,47 @@ public class OrdersServiceImpl implements OrdersService {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public List<Orders> findAll(Integer userId) {
         return ordersDao.findAll(userId);
+    }
+
+    @Override
+    public List<Orders> findUserOrdersByDate(Integer userId, Date from, Date to) {
+        return ordersDao.findUserOrdersByDate(userId, from, to);
+    }
+
+    @Override
+    public JSONArray findAllOrdersByDate(Date from, Date to) {
+        List<Orders> orders = ordersDao.findAllUserTimeOrders(from, to);
+        JSONArray detailedOrders = new JSONArray(orders.size());
+        for (Orders oneOrder : orders) {
+            System.out.println(oneOrder);
+            Integer uid = oneOrder.getUserId();
+            User user = userDao.findOne(uid);
+            JSONObject userJson = new JSONObject();
+            userJson.put("id", uid);
+            if (user != null) {
+                userJson.put("name", user.getName());
+            }
+            JSONObject orderJson = new JSONObject();
+            orderJson.put("id", oneOrder.getId());
+            orderJson.put("time", oneOrder.getTime());
+            orderJson.put("user", userJson);
+            JSONArray items = new JSONArray();
+            for (OrderItem it : oneOrder.getItems()) {
+                JSONObject item = new JSONObject();
+                item.put("book", it.getBook());
+                item.put("amount", it.getAmount());
+                items.add(item);
+            }
+            orderJson.put("items", items);
+            detailedOrders.add(orderJson);
+        }
+        return detailedOrders;
     }
 
     @Override

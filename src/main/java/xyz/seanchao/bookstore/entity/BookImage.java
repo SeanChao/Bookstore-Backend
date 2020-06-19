@@ -41,7 +41,8 @@ public class BookImage {
         return "BookImage{" +
                 "_id=" + _id +
                 ", fid=" + fid +
-                ", imageBase64='" + imageBase64.substring(0, 100) + '\'' +
+                ", imageBase64='" + ((imageBase64 != null) ?
+                imageBase64.substring(0, 100) : "null") + '\'' +
                 '}';
     }
 }

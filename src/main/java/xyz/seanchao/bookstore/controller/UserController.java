@@ -2,10 +2,7 @@ package xyz.seanchao.bookstore.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.UserService;
 import xyz.seanchao.bookstore.util.MessageUtil;
@@ -39,6 +36,11 @@ public class UserController {
     public List<User> allUser() {
         System.out.println("/api/users/all");
         return userService.findAll();
+    }
+
+    @GetMapping("/api/users/info")
+    public User getUserInfo(@RequestParam(name = "id") Integer id) {
+        return userService.findOne(id);
     }
 
     /**

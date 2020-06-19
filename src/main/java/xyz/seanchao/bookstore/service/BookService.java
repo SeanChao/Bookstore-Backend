@@ -1,5 +1,6 @@
 package xyz.seanchao.bookstore.service;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Pageable;
 import xyz.seanchao.bookstore.entity.Book;
 
@@ -20,7 +21,7 @@ public interface BookService {
 
     Book updateBook(Integer id, Book book);
 
-    Book addBook(Book book);
+    Book addBook(JSONObject book);
 
     void deleteBook(Integer id);
 }

@@ -1,10 +1,12 @@
 package xyz.seanchao.bookstore.serviceimpl;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import xyz.seanchao.bookstore.dao.BookDao;
 import xyz.seanchao.bookstore.entity.Book;
+import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.service.BookService;
 
 import java.util.List;
@@ -50,7 +52,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book addBook(Book book) {
+    public Book addBook(JSONObject data) {
+        Book book = new Book();
+        System.out.println("service: add book data" + data);
+        book.setTitle(data.getString("title"));
+        book.setIsbn(data.getString("isbn"));
+        book.setCategory(data.getString("category"));
+        book.setAuthor(data.getString("author"));
+        book.setPrice(data.getBigDecimal("price"));
+        book.setDescription(data.getString("description"));
+        book.setInventory(data.getIntValue("inventory"));
+        book.setActive(true);
+        BookImage image = new BookImage();
+        image.setImageBase64(data.getString("img"));
+        book.setImage(image);
+        System.out.println("Service: add book: " + book);
         return bookDao.addOne(book);
     }
 
