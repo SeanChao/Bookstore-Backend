@@ -6,7 +6,8 @@ import xyz.seanchao.bookstore.dao.UserDao;
 import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.repository.UserRepository;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -45,5 +46,21 @@ public class UserDaoImpl implements UserDao {
             if (user.getBlocked() != null) b.setBlocked(user.getBlocked());
             return userRepository.save(user);
         }).orElseGet(() -> userRepository.save(user));
+    }
+
+    @Override
+    public List<Map<String, Object>> userSalesStat(Date from, Date to) {
+        List<Map<String, Object>> queryResult = userRepository.userSalesStat(from, to);
+        List<Map<String, Object>> statList = new ArrayList<>();
+        for (Map<String, Object> item : queryResult) {
+            Integer id = (Integer) item.get("user_id");
+            BigDecimal sum = (BigDecimal) item.get("sum");
+            User user = findOne(id);
+            Map<String, Object> m = new HashMap<>();
+            m.put("user", user);
+            m.put("amount", sum);
+            statList.add(m);
+        }
+        return statList;
     }
 }

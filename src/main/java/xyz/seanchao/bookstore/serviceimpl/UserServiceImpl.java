@@ -6,7 +6,11 @@ import xyz.seanchao.bookstore.dao.UserDao;
 import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.UserService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addUser(User user) {
+        user.setBlocked(0);
         // email address backend validation
         String emailRegexp = "^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(emailRegexp);
@@ -58,5 +63,33 @@ public class UserServiceImpl implements UserService {
         user.setBlocked(blocked);
         userDao.updateUser(user);
         return true;
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public List<Map<String, Object>> userSalesStat(Date from, Date to) {
+//        StoredProcedureQuery query =
+//                entityManager.createNamedStoredProcedureQuery("userSalesStat");
+//        query.setParameter(1, from);
+//        query.setParameter(2, to);
+//        query.execute();
+//        List<Object[]> res = query.getResultList();
+//        res.stream().map(result -> {
+//            System.out.println((Integer) result[0]);
+//            return null;
+//        });
+//        return  null;
+        // no @N... was found with that name
+//        for (Map<User, BigDecimal> i : userDao.userSalesStat(from, to)) {
+//            for (Map.Entry<User, BigDecimal> en : i.entrySet()) {
+//                System.out.println(en.getKey() + " " + en.getValue());
+//            }
+//            System.out.println("-");
+//
+//        }
+//        return null;
+        return userDao.userSalesStat(from, to);
     }
 }

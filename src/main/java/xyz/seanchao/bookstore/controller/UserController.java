@@ -7,7 +7,10 @@ import xyz.seanchao.bookstore.entity.User;
 import xyz.seanchao.bookstore.service.UserService;
 import xyz.seanchao.bookstore.util.MessageUtil;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -56,5 +59,14 @@ public class UserController {
                 userInfo.getInteger("blocked"));
         if (ret) return MessageUtil.makeMessage(0);
         else return MessageUtil.makeMessage(100);
+    }
+
+    @GetMapping("/api/users/stat")
+    public List<Map<String, Object>> userSalesStat(@RequestParam("from") String fromStr,
+                                                   @RequestParam("to") String toStr) {
+        System.out.println("/api/users/stat " + fromStr + " -> " + toStr);
+        Date from = fromStr.equals("") ? null : Date.from(Instant.parse(fromStr));
+        Date to = toStr.equals("") ? null : Date.from(Instant.parse(toStr));
+        return userService.userSalesStat(from, to);
     }
 }

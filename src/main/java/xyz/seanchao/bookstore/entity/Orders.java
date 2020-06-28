@@ -64,10 +64,6 @@ public class Orders {
         this.time = time;
     }
 
-    //    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch =
-//            FetchType.EAGER)
-//    @JoinTable(name = "order_item", joinColumns = @JoinColumn(name =
-//            "order_id", referencedColumnName = "id"))
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     public List<OrderItem> getItems() {
         return items;

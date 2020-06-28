@@ -2,7 +2,9 @@ package xyz.seanchao.bookstore.service;
 
 import xyz.seanchao.bookstore.entity.User;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -15,4 +17,6 @@ public interface UserService {
     User checkUser(String username, String password);
 
     boolean blockUser(Integer id, Integer blocked);
+
+    List<Map<String, Object>> userSalesStat(Date from, Date to);
 }
