@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface OrdersService {
-    List<Orders> findAll(Integer userId);
+    List<JSONObject> findAll(Integer userId);
 
     List<Orders> findUserOrdersByDate(Integer userId, Date from, Date to);
 

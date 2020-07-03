@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.seanchao.bookstore.dao.BookDao;
 import xyz.seanchao.bookstore.dao.OrdersDao;
 import xyz.seanchao.bookstore.dao.UserDao;
 import xyz.seanchao.bookstore.entity.Book;
@@ -16,6 +17,7 @@ import xyz.seanchao.bookstore.service.OrdersService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdersServiceImpl implements OrdersService {
@@ -26,11 +28,36 @@ public class OrdersServiceImpl implements OrdersService {
     private BookService bookService;
 
     @Autowired
+    private BookDao bookDao;
+
+    @Autowired
     private UserDao userDao;
 
     @Override
-    public List<Orders> findAll(Integer userId) {
-        return ordersDao.findAll(userId);
+    public List<JSONObject> findAll(Integer userId) {
+        List<Orders> orders = ordersDao.findAll(userId);
+        return orders.parallelStream().map((o) -> {
+            List<OrderItem> items = o.getItems();
+            JSONArray jItems = new JSONArray();
+            for (OrderItem orderItem : items) {
+                Book b = bookDao.findOne(orderItem.getBook());
+                JSONObject jData = new JSONObject();
+                jData.put("book", orderItem.getBook());
+                jData.put("amount", orderItem.getAmount());
+                jData.put("title", b.getTitle());
+                jData.put("author", b.getAuthor());
+                jData.put("price", b.getPrice());
+                jData.put("img", b.getImage().getImageBase64());
+                jItems.add(jData);
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", o.getId());
+            jsonObject.put("userId", o.getUserId());
+            jsonObject.put("time", o.getTime());
+            jsonObject.put("items", jItems);
+            return jsonObject;
+        }).collect(Collectors.toList());
+//        return ordersDao.findAll(userId);
     }
 
     @Override
@@ -73,8 +100,9 @@ public class OrdersServiceImpl implements OrdersService {
         JSONArray orderItems = orderInfo.getJSONArray("items");
         System.out.println(orderItems);
         System.out.println(bookService.findBookById(1));
-        Orders order = new Orders((Integer) orderInfo.get("userId"),
-                new Date());
+        Integer userId = (Integer) orderInfo.get("userId");
+        if (userId == null) return 2;
+        Orders order = new Orders(userId, new Date());
         ArrayList<OrderItem> orderItemsList = new ArrayList<>();
         for (int i = 0; i < orderItems.size(); i++) {
             JSONObject item = orderItems.getJSONObject(i);

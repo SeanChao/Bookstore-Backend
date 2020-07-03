@@ -28,7 +28,7 @@ public class OrdersController {
     private BookService bookService;
 
     @GetMapping("/all")
-    public List<Orders> getAllOrders(@RequestParam(name = "id") Integer userId) {
+    public List<JSONObject> getAllOrders(@RequestParam(name = "id") Integer userId) {
         return ordersService.findAll(userId);
     }
 
@@ -62,6 +62,7 @@ public class OrdersController {
         JSONObject user = SessionUtil.getAuth();
         System.out.println("session user in making order: " + user);
         int status = ordersService.addOrder(itemList);
+        if (status != 0) return MessageUtil.makeMessage(100, "Failed");
         return MessageUtil.makeMessage(status, "OK");
     }
 

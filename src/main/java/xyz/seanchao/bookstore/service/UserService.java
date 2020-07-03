@@ -19,4 +19,6 @@ public interface UserService {
     boolean blockUser(Integer id, Integer blocked);
 
     List<Map<String, Object>> userSalesStat(Date from, Date to);
+
+    List<Map<String, Object>> userBookSalesStat(Integer id, Date from, Date to);
 }

@@ -21,4 +21,6 @@ public interface UserDao {
     User updateUser(User user);
 
     List<Map<String, Object>> userSalesStat(Date from, Date to);
+
+    List<Map<String, Object>> userBookSalesStat(Integer id, Date from, Date to);
 }

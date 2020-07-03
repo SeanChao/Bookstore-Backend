@@ -8,6 +8,7 @@ import xyz.seanchao.bookstore.service.UserService;
 import xyz.seanchao.bookstore.util.MessageUtil;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +69,15 @@ public class UserController {
         Date from = fromStr.equals("") ? null : Date.from(Instant.parse(fromStr));
         Date to = toStr.equals("") ? null : Date.from(Instant.parse(toStr));
         return userService.userSalesStat(from, to);
+    }
+
+    @GetMapping("/api/users/statOne")
+    public List<Map<String, Object>> oneUserSalesStat(@RequestParam("id") Integer id,
+                                                      @RequestParam("from") String fromStr,
+                                                      @RequestParam("to") String toStr) {
+        if (id == null) return new ArrayList<>();
+        Date from = fromStr.equals("") ? null : Date.from(Instant.parse(fromStr));
+        Date to = toStr.equals("") ? null : Date.from(Instant.parse(toStr));
+        return userService.userBookSalesStat(id, from, to);
     }
 }

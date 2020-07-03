@@ -10,7 +10,10 @@ import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.service.BookService;
 import xyz.seanchao.bookstore.util.MessageUtil;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/book")
@@ -73,5 +76,14 @@ public class BookController {
         if (id == null) return MessageUtil.makeMessage(100, "invalid id");
         bookService.deleteBook(id);
         return MessageUtil.makeMessage(0);
+    }
+
+    @GetMapping(value = "/stat")
+    public List<Map<String, Object>> bookSalesStat(@RequestParam("from") String fromStr,
+                                                   @RequestParam("to") String toStr) {
+        System.out.println("/api/users/stat " + fromStr + " -> " + toStr);
+        Date from = fromStr.equals("") ? null : Date.from(Instant.parse(fromStr));
+        Date to = toStr.equals("") ? null : Date.from(Instant.parse(toStr));
+        return bookService.bookSalesStat(from, to);
     }
 }

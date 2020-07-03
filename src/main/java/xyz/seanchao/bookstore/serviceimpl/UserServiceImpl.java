@@ -70,26 +70,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Map<String, Object>> userSalesStat(Date from, Date to) {
-//        StoredProcedureQuery query =
-//                entityManager.createNamedStoredProcedureQuery("userSalesStat");
-//        query.setParameter(1, from);
-//        query.setParameter(2, to);
-//        query.execute();
-//        List<Object[]> res = query.getResultList();
-//        res.stream().map(result -> {
-//            System.out.println((Integer) result[0]);
-//            return null;
-//        });
-//        return  null;
-        // no @N... was found with that name
-//        for (Map<User, BigDecimal> i : userDao.userSalesStat(from, to)) {
-//            for (Map.Entry<User, BigDecimal> en : i.entrySet()) {
-//                System.out.println(en.getKey() + " " + en.getValue());
-//            }
-//            System.out.println("-");
-//
-//        }
-//        return null;
         return userDao.userSalesStat(from, to);
     }
+
+    @Override
+    public List<Map<String, Object>> userBookSalesStat(Integer id, Date from,
+                                                       Date to) {
+        System.out.println("service: " + id);
+        return userDao.userBookSalesStat(id, from, to);
+    }
+
 }

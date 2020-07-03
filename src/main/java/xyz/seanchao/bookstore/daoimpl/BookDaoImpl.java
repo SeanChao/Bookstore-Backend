@@ -9,9 +9,7 @@ import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.repository.BookImageRepository;
 import xyz.seanchao.bookstore.repository.BookRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class BookDaoImpl implements BookDao {
@@ -119,5 +117,10 @@ public class BookDaoImpl implements BookDao {
 //        bookRepository.delete(findOne(id));
 //        Optional<BookImage> bookImageOptional=bookImageRepository.findByFid(id);
 //        bookImageOptional.ifPresent(bookImage -> bookImageRepository.delete(bookImage));
+    }
+
+    @Override
+    public List<Map<String, Object>> bookSalesStat(Date start, Date end) {
+        return bookRepository.bookSalesStat(start, end);
     }
 }

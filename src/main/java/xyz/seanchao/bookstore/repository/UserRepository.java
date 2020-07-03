@@ -19,4 +19,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "call userSalesStat(:start, :end)", nativeQuery = true)
     List<Map<String, Object>> userSalesStat(@Param("start") Date start,
                                             @Param("end") Date end);
+
+    @Query(value = "call userBookSalesStat(:id, :start, :end)",
+            nativeQuery = true)
+    List<Map<String, Object>> userBookSalesStat(@Param("id") Integer id,
+                                                @Param("start") Date start,
+                                                @Param("end") Date end);
 }

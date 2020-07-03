@@ -9,7 +9,9 @@ import xyz.seanchao.bookstore.entity.Book;
 import xyz.seanchao.bookstore.entity.BookImage;
 import xyz.seanchao.bookstore.service.BookService;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -73,5 +75,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(Integer id) {
         bookDao.deleteOne(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> bookSalesStat(Date start, Date end) {
+        return bookDao.bookSalesStat(start, end);
     }
 }

@@ -64,6 +64,9 @@ public class CartServiceImpl implements CartService {
             Book book = bookDao.findOne(entry.getKey());
             cartItem.put("id", book.getId());
             cartItem.put("title", book.getTitle());
+            cartItem.put("price", book.getPrice());
+            cartItem.put("author", book.getAuthor());
+            cartItem.put("img", book.getImage().getImageBase64());
             cartItem.put("amount", entry.getValue());
             bookList.add(cartItem);
         }

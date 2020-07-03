@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Pageable;
 import xyz.seanchao.bookstore.entity.Book;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
     Book findBookById(Integer id);
@@ -24,4 +26,6 @@ public interface BookService {
     Book addBook(JSONObject book);
 
     void deleteBook(Integer id);
+
+    List<Map<String, Object>> bookSalesStat(Date start, Date end);
 }

@@ -53,14 +53,26 @@ public class UserDaoImpl implements UserDao {
         List<Map<String, Object>> queryResult = userRepository.userSalesStat(from, to);
         List<Map<String, Object>> statList = new ArrayList<>();
         for (Map<String, Object> item : queryResult) {
-            Integer id = (Integer) item.get("user_id");
-            BigDecimal sum = (BigDecimal) item.get("sum");
-            User user = findOne(id);
-            Map<String, Object> m = new HashMap<>();
-            m.put("user", user);
-            m.put("amount", sum);
-            statList.add(m);
+            statList.add(encapsulate(item));
         }
         return statList;
     }
+
+    @Override
+    public List<Map<String, Object>> userBookSalesStat(Integer userId,
+                                                       Date from,
+                                                       Date to) {
+        return userRepository.userBookSalesStat(userId, from, to);
+    }
+
+    private Map<String, Object> encapsulate(Map<String, Object> item) {
+        Integer id = (Integer) item.get("user_id");
+        BigDecimal sum = (BigDecimal) item.get("sum");
+        User user = findOne(id);
+        Map<String, Object> m = new HashMap<>();
+        m.put("user", user);
+        m.put("amount", sum);
+        return m;
+    }
+
 }
