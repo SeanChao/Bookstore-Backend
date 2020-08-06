@@ -1,6 +1,6 @@
 # Bookstore Backend
 
-## Backend API (**WIP**)
+## Backend API
 
 ### Book Data
 
@@ -57,11 +57,8 @@ The MySQL database includes a schema named `bookstore` with following tables:
 |3|Duplicate username.|
 |4|Invalid email address in user registration.|
 |100| Generic error: invalid data|
- 
-## Session
 
-After the user logs in, the server will set a session, which will be removed if the user logs out. When the user
- attempts to
- access private data via APIs like orders, authentication is checked by interceptors before requests are processed by
- controllers.
- The frontend should check whether session is valid by requesting `checkSession` interface.
+## Drawbacks
+
+- Some ORM is not well implemented
+- Authentication is fake
